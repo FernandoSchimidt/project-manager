@@ -7,9 +7,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
+  private readonly urlBase = 'http://localhost:8080/users';
   constructor(private http: HttpClient) {}
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>('api/users');
+    return this.http.get<User[]>(this.urlBase);
+  }
+
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(this.urlBase, user);
   }
 }

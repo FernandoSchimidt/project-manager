@@ -1,1 +1,63 @@
-<p>user-form works!</p>
+<div class="container">
+  <mat-toolbar color="primary">
+    <span>Novo Projeto</span>
+    <span class="spacer"></span>
+
+    <a
+      mat-button
+      routerLink="/users"
+      style="
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        color: white;
+      "
+    >
+      <mat-icon
+        class="icon"
+        aria-hidden="false"
+        aria-label="Adicionar uma nova marcação de trabalho"
+        fontIcon="arrow_back"
+      ></mat-icon>
+      Projetos</a
+    >
+  </mat-toolbar>
+
+  <div class="card">
+    <form [formGroup]="userForm" (ngSubmit)="createUser()">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+        @if (userForm.get('name')?.hasError('required')) {
+        <mat-error> Name is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" />
+        @if (userForm.get('email')?.hasError('required')) {
+        <mat-error> Email is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>CPF</mat-label>
+        <input matInput type="text" formControlName="cpf" />
+        @if (userForm.get('cpf')?.hasError('required')) {
+        <mat-error> CPF is required </mat-error>
+        }
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="userForm.invalid"
+      >
+        Create User
+      </button>
+    </form>
+  </div>
+</div>

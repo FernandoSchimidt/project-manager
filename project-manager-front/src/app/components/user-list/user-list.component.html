@@ -1,1 +1,22 @@
-<p>user-list works!</p>
+<div class="container">
+  <mat-toolbar color="primary">
+    <span>Usuarios</span>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/users-form">Novo Usuario</a>
+  </mat-toolbar>
+  @for (user of usersList; track $index) {
+  <div class="card">
+    <div class="container-inside">
+      <p>Nome: {{ user.name }}</p>
+      <p>CPF: {{ user.cpf }}</p>
+      <p>Email: {{ user.email }}</p>
+      <span>Projetos:</span>
+      <ul>
+        @for (proje of user.projects; track $index) {
+        <li>{{ proje.name | uppercase }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+  }
+</div>
