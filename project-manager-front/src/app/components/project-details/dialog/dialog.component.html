@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="card">
+    <div class="card-title">
+      <h1>{{ data.name }}</h1>
+    </div>
+    <div class="card-content">
+      <mat-form-field class="example-full-width">
+        <mat-label>Eschola a data</mat-label>
+        <input
+          matInput
+          [matDatepickerFilter]="myFilter"
+          [matDatepicker]="picker"
+          [(ngModel)]="workHour.date"
+          placeholder="MM/DD/YYYY"
+        />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Horas trabalhadas</mat-label>
+        <input [(ngModel)]="workHour.hoursWorked" matInput placeholder="2" />
+      </mat-form-field>
+
+      <button mat-button color="primary" (click)="workHourLog()">Salvar</button>
+    </div>
+  </div>
+</div>

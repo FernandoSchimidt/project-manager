@@ -1,0 +1,44 @@
+@if (project) {
+<div class="container">
+  <div class="card">
+    <h1>{{ project.name }}</h1>
+    <div class="datas">
+      <p>
+        <strong>Inicio:</strong> {{ project.startDate | date : "longDate" }}
+      </p>
+      <p><strong>Fim:</strong> {{ project.endDate | date : "longDate" }}</p>
+    </div>
+    <div class="horas">
+      <p><strong>Horas do projeto:</strong> 🕖{{ project.budgetedHours }}</p>
+
+      <p>
+        <strong>Horas trabalhadas:</strong> 🕖{{ project.totalHoursWorked }}
+      </p>
+      <p><strong>Horas disponiveis:</strong> 🕖 {{ project.availableHours }}</p>
+    </div>
+    @if (project.availableHours > 0) {
+    <a (click)="openDialog()">
+      <mat-icon
+        class="icon"
+        aria-hidden="false"
+        aria-label="Adicionar uma nova marcação de trabalho"
+        fontIcon="add"
+      ></mat-icon>
+    </a>
+    }@else {
+    <p>Sem Horas disponiveis para apontamento.</p>
+    }
+  </div>
+
+  @for (work of workHours; track $index) {
+  <div class="worked-hours">
+    <p>Data: {{ work.date | date : "longDate" }}</p>
+    <p>Horas trabalhadas: 🕖{{ work.hoursWorked }}</p>
+
+    <a (click)="deleteWorkHourLog(work.id)">
+      <mat-icon color="warn">delete</mat-icon>
+    </a>
+  </div>
+  }
+</div>
+}

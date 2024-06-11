@@ -1,0 +1,27 @@
+<div class="container">
+  @for (project of projectsList; track $index) {
+  <div class="card">
+    <div class="container-inside">
+      <div class="title">
+        <h4>{{ project.name }}</h4>
+        <a (click)="delete(project.id)">
+          <mat-icon
+            class="icon"
+            aria-hidden="false"
+            aria-label="Adicionar uma nova marcação de trabalho"
+            fontIcon="delete"
+          ></mat-icon>
+        </a>
+      </div>
+      <div class="dates">
+        <p>Inicio: {{ project.startDate | date : "longDate" }}</p>
+        <p>Fim: {{ project.endDate | date : "longDate" }}</p>
+        <p>Horas do projeto</p>
+        🕖 {{ project.budgetedHours }}
+      </div>
+    </div>
+
+    <button (click)="goToProjectDetails(project.id)">Informções</button>
+  </div>
+  }
+</div>

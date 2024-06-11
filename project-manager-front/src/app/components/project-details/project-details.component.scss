@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.datas,
+.horas {
+  margin-bottom: 20px;
+}
+
+.worked-hours {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 10px;
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.icon {
+  font-size: 24px;
+  color: #009178;
+  cursor: pointer;
+}
