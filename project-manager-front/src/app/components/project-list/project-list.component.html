@@ -1,10 +1,15 @@
 <div class="container">
+  <mat-toolbar color="primary">
+    <span>Projetos</span>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/projects-form">Novo Projeto</a>
+  </mat-toolbar>
   @for (project of projectsList; track $index) {
   <div class="card">
     <div class="container-inside">
       <div class="title">
         <h4>{{ project.name }}</h4>
-        <a (click)="delete(project.id)">
+        <a (click)="confirmDelete(project.name, project.id)">
           <mat-icon
             class="icon"
             aria-hidden="false"

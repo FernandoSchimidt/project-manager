@@ -8,18 +8,8 @@ import { WorkHourLog } from '../../../models/WorkHourLog .interface';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogTitle,
-  MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogComponent } from './dialog/dialog.component';
 @Component({
   selector: 'app-project-details',

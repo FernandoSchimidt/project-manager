@@ -1,1 +1,71 @@
-<p>project-form works!</p>
+<div class="container">
+  <mat-toolbar color="primary">
+    <span>Novo Projeto</span>
+    <span class="spacer"></span>
+
+    <a
+      mat-button
+      routerLink="/projects"
+      style="
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        color: white;
+      "
+    >
+      <mat-icon
+        class="icon"
+        aria-hidden="false"
+        aria-label="Adicionar uma nova marcação de trabalho"
+        fontIcon="arrow_back"
+      ></mat-icon>
+      Projetos</a
+    >
+  </mat-toolbar>
+
+  <div class="card">
+    <form [formGroup]="projectForm" (ngSubmit)="createProject()">
+      <mat-form-field appearance="fill">
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="name" />
+        @if (projectForm.get('name')?.hasError('required')) {
+        <mat-error> Project name is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Start Date</mat-label>
+        <input matInput type="date" formControlName="startDate" />
+        @if (projectForm.get('startDate')?.hasError('required')) {
+        <mat-error> Start date is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>End Date</mat-label>
+        <input matInput type="date" formControlName="endDate" />
+        @if (projectForm.get('endDate')?.hasError('required')) {
+        <mat-error> End date is required </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Budgeted Hours</mat-label>
+        <input matInput type="number" formControlName="budgetedHours" />
+        @if (projectForm.get('budgetedHours')?.hasError('required')) {
+        <mat-error> Budgeted hours are required </mat-error>
+        }
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="projectForm.invalid"
+      >
+        Create Project
+      </button>
+    </form>
+  </div>
+</div>
