@@ -1,7 +1,14 @@
 package com.fernandoschimidt.project_manager.repository;
 
 import com.fernandoschimidt.project_manager.entity.Project;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ProjectRepository extends JpaRepository<Project, Long> {
+import java.util.Optional;
+
+public interface ProjectRepository extends PagingAndSortingRepository<Project, Long> {
+    Optional<Project> findById(Long projectId);
+
+    void deleteById(Long projectId);
+
+    Project save(Project project);
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Project } from '../../../models/Project.interface';
 import { ProjectService } from '../../services/project.service';
 import { DatePipe } from '@angular/common';
@@ -7,6 +7,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 import { MatIconModule } from '@angular/material/icon';
 
@@ -21,20 +23,30 @@ import { MatIconModule } from '@angular/material/icon';
     RouterLink,
     MatIconModule,
     MatButtonModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.scss',
 })
-export class ProjectListComponent {
-  projectsList: Project[] = [];
+export class ProjectListComponent implements OnInit {
+  projects: Project[] = [];
+  totalElements: number = 0;
+  totalPages: number = 0;
+  currentPage: number = 0;
+  pageSize: number = 5;
 
-  constructor(private projectService: ProjectService, private router: Router) {
-    this.findAllProjects();
+  constructor(private projectService: ProjectService, private router: Router) {}
+  ngOnInit(): void {
+    this.findAllProjects(this.currentPage, this.pageSize);
   }
 
-  findAllProjects() {
-    this.projectService.getProjects().subscribe((res) => {
-      this.projectsList = res;
+  findAllProjects(page: number, size: number) {
+    this.projectService.getProjects(page, size).subscribe((response) => {
+      this.projects = response.content;
+      this.totalElements = response.totalElements;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
     });
   }
 
@@ -50,7 +62,11 @@ export class ProjectListComponent {
 
   delete(id: number) {
     this.projectService.delete(id).subscribe((res) => {
-      this.projectsList = res;
+      this.projects = res;
     });
+  }
+
+  onPageChange(event: any): void {
+    this.findAllProjects(event.pageIndex, event.pageSize);
   }
 }

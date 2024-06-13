@@ -4,6 +4,7 @@ import com.fernandoschimidt.project_manager.entity.Project;
 import com.fernandoschimidt.project_manager.entity.ProjectDetails;
 import com.fernandoschimidt.project_manager.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,15 +30,21 @@ public class ProjectController {
         return ResponseEntity.ok(projectDetails);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Project>> getAllProject() {
-        List<Project> projects = projectService.getAllProjects();
-        return new ResponseEntity<>(projects, HttpStatus.OK);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<Project>> getAllProject() {
+//        List<Project> projects = projectService.getAllProjects();
+//        return new ResponseEntity<>(projects, HttpStatus.OK);
+//    }
+@GetMapping
+public Page<Project> getProjects(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+) {
+    return projectService.getProjects(page, size);
+}
 
     @DeleteMapping("/{projectId}")
-    public ResponseEntity<List<Project>> deleteProject(@PathVariable Long projectId) {
-        List<Project> projects = projectService.deleteProject(projectId);
-        return new ResponseEntity<>(projects, HttpStatus.OK);
+    public void deleteProject(@PathVariable Long projectId) {
+       projectService.deleteProject(projectId);
     }
 }

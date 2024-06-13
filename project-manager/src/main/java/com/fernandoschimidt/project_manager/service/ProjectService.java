@@ -7,9 +7,13 @@ import com.fernandoschimidt.project_manager.entity.WorkHourLog;
 import com.fernandoschimidt.project_manager.repository.ProjectRepository;
 import com.fernandoschimidt.project_manager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectService {
@@ -60,18 +64,24 @@ public class ProjectService {
         return projectDetails;
     }
 
-    public List<Project> getAllProjects() {
-        List<Project> projects = projectRepository.findAll();
-        return projects;
+    //    public List<Project> getAllProjects(int page, int size) {
+//        List<Project> projects = projectRepository.findAll();
+//        return projects;
+//    }
+    public Page<Project> getProjects(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return projectRepository.findAll(pageable);
     }
 
 
-    public List<Project> deleteProject(Long projectId) {
-        Project project = projectRepository.findById(projectId)
-                .orElseThrow(() -> new IllegalArgumentException("Project not found."));
+    public void  deleteProject(Long projectId) {
+        Optional<Project> project = projectRepository.findById(projectId);
 
-        projectRepository.deleteById(projectId);
+        if(project.isPresent()){
+            projectRepository.deleteById(projectId);
+        } else {
+            throw new IllegalArgumentException("Project not found.");
+        }
 
-        return projectRepository.findAll();
     }
 }
