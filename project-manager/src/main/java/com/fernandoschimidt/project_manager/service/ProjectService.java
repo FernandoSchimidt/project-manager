@@ -24,8 +24,8 @@ public class ProjectService {
     @Autowired
     private UserRepository userRepository;
 
-    public Project saveProject(Long userId, Project project) {
-        User user = userRepository.findById(userId)
+    public Project saveProject( Project project) {
+        User user = userRepository.findById(project.getUser().getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
         if (project.getStartDate().isAfter(project.getEndDate())) {
@@ -64,20 +64,23 @@ public class ProjectService {
         return projectDetails;
     }
 
-    //    public List<Project> getAllProjects(int page, int size) {
-//        List<Project> projects = projectRepository.findAll();
-//        return projects;
-//    }
     public Page<Project> getProjects(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return projectRepository.findAll(pageable);
     }
 
+    public Page<Project> getProjectsByUser(int page, int size, User userProject) {
+        User user = userRepository.findById(userProject.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+        Pageable pageable = PageRequest.of(page, size);
+        return projectRepository.findByUser(user.getId(),pageable);
+    }
 
-    public void  deleteProject(Long projectId) {
+
+    public void deleteProject(Long projectId) {
         Optional<Project> project = projectRepository.findById(projectId);
 
-        if(project.isPresent()){
+        if (project.isPresent()) {
             projectRepository.deleteById(projectId);
         } else {
             throw new IllegalArgumentException("Project not found.");

@@ -1,6 +1,7 @@
 package com.fernandoschimidt.project_manager.controller;
 
 
+import com.fernandoschimidt.project_manager.dtos.CreateUserDto;
 import com.fernandoschimidt.project_manager.entity.User;
 import com.fernandoschimidt.project_manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +18,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = userService.saveUser(user);
-        return ResponseEntity.ok(newUser);
+    public ResponseEntity<User> createUser(@RequestBody CreateUserDto user) {
+        User newUser = userService.createUser(user);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
+
     @GetMapping
-    public ResponseEntity<List<User>> findAllUsers(){
+    public ResponseEntity<List<User>> findAllUsers() {
         List<User> users = userService.findAll();
-        return  new ResponseEntity<>(users, HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
+
 }

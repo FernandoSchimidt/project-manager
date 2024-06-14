@@ -35,7 +35,7 @@ export class ProjectService {
   delete(id: number): Observable<any[]> {
     return this.http.delete<any[]>(`${this.urlBase}/${id}`);
   }
-  createProject(project: Project): Observable<Project> {
-    return this.http.post<Project>(`${this.urlBase}/user/1`, project);
+  createProject(project: Project,userId:string): Observable<Project> {
+    return this.http.post<Project>(`${this.urlBase}/user/${userId}`, project);
   }
 }
