@@ -31,8 +31,10 @@ export class ProjectDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    console.log(id)
     this.serveice.findyById(id).subscribe((project) => {
       this.project = project;
+      console.log(project)
     });
     this.getAllWorkedHours(id);
   }

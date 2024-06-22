@@ -1,5 +1,6 @@
 package com.fernandoschimidt.project_manager.entity;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 

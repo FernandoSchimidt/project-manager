@@ -1,13 +1,13 @@
 package com.fernandoschimidt.project_manager.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+
 
 @Entity
 @Data
@@ -22,11 +22,7 @@ public class User {
     private String name;
     private String email;
     private String cpf;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    private List<Project> projects;
-
+    private String role;
     private String password;
 
 

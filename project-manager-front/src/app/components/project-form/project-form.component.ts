@@ -51,7 +51,8 @@ export class ProjectFormComponent {
       name: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
-      budgetedHours: [0, Validators.required]
+      budgetedHours: [0, Validators.required],
+      userId: ['', Validators.required],
     });
   }
 
@@ -62,9 +63,10 @@ export class ProjectFormComponent {
         ...formValue,
         startDate: this.formatDate(formValue.startDate),
         endDate: this.formatDate(formValue.endDate),
+        user: { id: formValue.userId },
       };
       console.log(newProject);
-      this.projectService.createProject(newProject, this.userId).subscribe(
+      this.projectService.createProject(newProject).subscribe(
         (response) => {
           console.log('Project created successfully:', response);
           // Navegar para a página de detalhes ou lista de projetos após a criação

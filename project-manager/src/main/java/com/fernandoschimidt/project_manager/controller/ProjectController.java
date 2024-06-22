@@ -2,15 +2,13 @@ package com.fernandoschimidt.project_manager.controller;
 
 import com.fernandoschimidt.project_manager.entity.Project;
 import com.fernandoschimidt.project_manager.entity.ProjectDetails;
-import com.fernandoschimidt.project_manager.entity.User;
 import com.fernandoschimidt.project_manager.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/projects")
@@ -19,33 +17,26 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/user")
-    public ResponseEntity<Project> createProject(@RequestBody Project project) {
-        Project newProject = projectService.saveProject(project);
-        return ResponseEntity.ok(newProject);
+    @GetMapping
+    public ResponseEntity<Page<Project>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Page<Project> projects = projectService.findAll(page, size);
+
+        return ResponseEntity.ok(projects);
     }
 
-    @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectDetails> getProjectDetails(@PathVariable Long projectId) {
-        ProjectDetails projectDetails = projectService.getProjectDetails(projectId);
+    @GetMapping("{idProject}")
+    public ResponseEntity<ProjectDetails> findlById(@PathVariable(name = "idProject") Long idProject) {
+        ProjectDetails projectDetails = projectService.getProjectDetails(idProject);
         return ResponseEntity.ok(projectDetails);
     }
 
-    @GetMapping
-    public Page<Project> getProjects(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return projectService.getProjects(page, size);
-    }
-
-    @GetMapping("/user")
-    public Page<Project> getProjectsByUserId(
-            @RequestBody User user,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        return projectService.getProjectsByUser(page, size, user);
+    @PostMapping
+    public ResponseEntity<Project> create(@RequestBody Project project) {
+        Project newProject = this.projectService.create(project);
+        return ResponseEntity.ok(project);
     }
 
     @DeleteMapping("/{projectId}")

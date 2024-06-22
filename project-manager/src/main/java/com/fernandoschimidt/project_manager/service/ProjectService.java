@@ -1,9 +1,10 @@
 package com.fernandoschimidt.project_manager.service;
 
+import com.fernandoschimidt.project_manager.entity.WorkHourLog;
 import com.fernandoschimidt.project_manager.entity.Project;
 import com.fernandoschimidt.project_manager.entity.ProjectDetails;
 import com.fernandoschimidt.project_manager.entity.User;
-import com.fernandoschimidt.project_manager.entity.WorkHourLog;
+import com.fernandoschimidt.project_manager.exception.ProjectNotFoundException;
 import com.fernandoschimidt.project_manager.repository.ProjectRepository;
 import com.fernandoschimidt.project_manager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +13,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProjectService {
-
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectRepository repository;
 
     @Autowired
     private UserRepository userRepository;
 
-    public Project saveProject( Project project) {
+    public Page<Project> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return repository.findAll(pageable);
+    }
+
+    public Project create(Project project) {
         User user = userRepository.findById(project.getUser().getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
@@ -36,11 +40,11 @@ public class ProjectService {
         }
 
         project.setUser(user);
-        return projectRepository.save(project);
+        return repository.save(project);
     }
 
     public ProjectDetails getProjectDetails(Long projectId) {
-        Project project = projectRepository.findById(projectId)
+        Project project = repository.findById(projectId)
                 .orElseThrow(() -> new IllegalArgumentException("Project not found."));
 
         // Calcula as horas consumidas
@@ -64,24 +68,17 @@ public class ProjectService {
         return projectDetails;
     }
 
-    public Page<Project> getProjects(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return projectRepository.findAll(pageable);
-    }
 
-    public Page<Project> getProjectsByUser(int page, int size, User userProject) {
-        User user = userRepository.findById(userProject.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found."));
-        Pageable pageable = PageRequest.of(page, size);
-        return projectRepository.findByUser(user.getId(),pageable);
+    public Project findById(Long idProject) {
+        return repository.findById(idProject)
+                .orElseThrow(() -> new ProjectNotFoundException("Project not found with id: " + idProject));
     }
-
 
     public void deleteProject(Long projectId) {
-        Optional<Project> project = projectRepository.findById(projectId);
+        Optional<Project> project = repository.findById(projectId);
 
         if (project.isPresent()) {
-            projectRepository.deleteById(projectId);
+            repository.deleteById(projectId);
         } else {
             throw new IllegalArgumentException("Project not found.");
         }

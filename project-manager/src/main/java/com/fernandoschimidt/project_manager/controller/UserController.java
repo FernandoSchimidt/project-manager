@@ -26,9 +26,15 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) throws Exception {
+        User user = userService.findById(id);
+        return ResponseEntity.ok(user);
     }
 
 }

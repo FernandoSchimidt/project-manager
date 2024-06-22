@@ -4,7 +4,6 @@ import { Project } from '../../models/Project.interface';
 import { Observable } from 'rxjs';
 import { PaginatedProjects } from '../../models/PaginatedProjects .interface';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -35,7 +34,7 @@ export class ProjectService {
   delete(id: number): Observable<any[]> {
     return this.http.delete<any[]>(`${this.urlBase}/${id}`);
   }
-  createProject(project: Project,userId:string): Observable<Project> {
-    return this.http.post<Project>(`${this.urlBase}/user/${userId}`, project);
+  createProject(project: Project): Observable<Project> {
+    return this.http.post<Project>(this.urlBase, project);
   }
 }

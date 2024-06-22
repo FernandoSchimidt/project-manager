@@ -39,6 +39,7 @@ export class UserFormComponent {
       name: ['', Validators.required],
       email: ['', Validators.required],
       cpf: ['', Validators.required],
+      password: ['', Validators.required],
     });
   }
 

@@ -5,6 +5,8 @@ import com.fernandoschimidt.project_manager.dtos.RegisterRequestDTO;
 import com.fernandoschimidt.project_manager.entity.User;
 import com.fernandoschimidt.project_manager.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,8 @@ import java.util.List;
 
 @Service
 public class UserService {
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     PasswordEncoder encoder;
 
@@ -33,13 +33,13 @@ public class UserService {
         return userRepository.save(newUser);
     }
 
-    @Transactional
+
     public List<User> findAll() {
-        List<User> users = userRepository.findAll();
-        for (User user : users) {
-            user.getProjects().size(); // Inicializar a coleção projects
-        }
-        return users;
+        return  userRepository.findAll();
     }
 
+    public User findById(Long id) throws Exception {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new Exception("user not found"));
+    }
 }

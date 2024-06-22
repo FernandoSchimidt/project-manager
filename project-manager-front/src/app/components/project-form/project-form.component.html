@@ -60,7 +60,7 @@
 
       <mat-form-field>
         <mat-label>Usuario</mat-label>
-        <mat-select name="userId" [(ngModel)]="userId">
+        <mat-select name="userId" formControlName="userId">
           @for (user of users; track $index) {
           <mat-option [value]="user.id">{{ user.name }}</mat-option>
           }
