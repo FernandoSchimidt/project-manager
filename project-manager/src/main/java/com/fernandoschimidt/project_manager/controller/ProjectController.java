@@ -26,6 +26,14 @@ public class ProjectController {
 
         return ResponseEntity.ok(projects);
     }
+    @GetMapping("/my-projects")
+    public ResponseEntity<Page<Project>> getMyProjects(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        Page<Project> projects = projectService.getProjectsForAuthenticatedUser(page, size);
+        return ResponseEntity.ok(projects);
+    }
 
     @GetMapping("{idProject}")
     public ResponseEntity<ProjectDetails> findlById(@PathVariable(name = "idProject") Long idProject) {

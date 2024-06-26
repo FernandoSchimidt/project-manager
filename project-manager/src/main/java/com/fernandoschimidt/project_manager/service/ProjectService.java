@@ -5,6 +5,7 @@ import com.fernandoschimidt.project_manager.entity.Project;
 import com.fernandoschimidt.project_manager.entity.ProjectDetails;
 import com.fernandoschimidt.project_manager.entity.User;
 import com.fernandoschimidt.project_manager.exception.ProjectNotFoundException;
+import com.fernandoschimidt.project_manager.infra.securrity.CustomUserDetailsService;
 import com.fernandoschimidt.project_manager.repository.ProjectRepository;
 import com.fernandoschimidt.project_manager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import java.util.Optional;
 public class ProjectService {
     @Autowired
     private ProjectRepository repository;
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
 
     @Autowired
     private UserRepository userRepository;
@@ -39,6 +42,14 @@ public class ProjectService {
         return repository.findAll(pageable);
     }
 
+    public Page<Project> getProjectsForAuthenticatedUser(int page, int size) {
+        String email = customUserDetailsService.getAuthenticatedUserEmail();
+        if (email != null) {
+            Pageable pageable = PageRequest.of(page, size);
+            return repository.findByUserEmail(email, pageable);
+        }
+        return Page.empty(); // Retorna uma página vazia se o usuário não estiver autenticado
+    }
 
 
     public Project create(Project project) {

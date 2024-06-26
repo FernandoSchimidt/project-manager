@@ -24,7 +24,7 @@ export class ProjectService {
       .set('size', size.toString());
 
     // Passe os parâmetros na solicitação GET
-    return this.http.get<PaginatedProjects>(this.urlBase, { params });
+    return this.http.get<PaginatedProjects>(`${this.urlBase}/my-projects`, { params });
   }
 
   findyById(id: number): Observable<Project> {
