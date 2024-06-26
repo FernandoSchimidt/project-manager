@@ -37,4 +37,7 @@ export class ProjectService {
   createProject(project: Project): Observable<Project> {
     return this.http.post<Project>(this.urlBase, project);
   }
+  // getProjectsUserActive() {
+  //   return this.http.get<Project[]>(`${this.urlBase}`);
+  // }
 }

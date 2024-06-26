@@ -11,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,9 +28,18 @@ public class ProjectService {
     private UserRepository userRepository;
 
     public Page<Project> findAll(int page, int size) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//
+//        User user = userRepository.findByEmail(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        System.out.println("Usuario: "+user);
+
         Pageable pageable = PageRequest.of(page, size);
         return repository.findAll(pageable);
     }
+
+
 
     public Project create(Project project) {
         User user = userRepository.findById(project.getUser().getId())

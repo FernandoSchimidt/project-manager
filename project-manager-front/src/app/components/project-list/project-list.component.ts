@@ -39,6 +39,7 @@ export class ProjectListComponent implements OnInit {
   constructor(private projectService: ProjectService, private router: Router) {}
   ngOnInit(): void {
     this.findAllProjects(this.currentPage, this.pageSize);
+    // this.getProjectsUserActive();
   }
 
   findAllProjects(page: number, size: number) {
@@ -69,4 +70,10 @@ export class ProjectListComponent implements OnInit {
   onPageChange(event: any): void {
     this.findAllProjects(event.pageIndex, event.pageSize);
   }
+
+  // getProjectsUserActive() {
+  //   this.projectService.getProjectsUserActive().subscribe((res) => {
+  //     this.projects = res;
+  //   });
+  // }
 }
